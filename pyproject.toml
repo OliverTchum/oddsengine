@@ -1,0 +1,59 @@
+[project]
+name = "oddsengine"
+version = "0.0.1"
+description = "Consensus pricing across bookmakers and exchanges, a risk-constrained cross-sport portfolio, and a paper trader graded on closing-line value."
+readme = "README.md"
+requires-python = ">=3.12"
+dependencies = [
+    "numpy>=2.1",
+    "pandas>=2.2",
+    "scipy>=1.14",
+    "pydantic>=2.9",
+    "pyyaml>=6.0",
+    "cvxpy>=1.6",
+    "httpx>=0.28.1",
+    "pydantic-settings>=2.15.0",
+    "pyarrow>=25.0.1",
+]
+
+[dependency-groups]
+dev = [
+    "pytest>=8.3",
+    "hypothesis>=6.115",
+    "ruff>=0.8",
+    "mypy>=1.13",
+    "types-pyyaml>=6.0",
+    "scipy-stubs>=1.18.1.0",
+    "pandas-stubs>=3.0.5.260730",
+]
+
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/oddsengine"]
+
+[tool.ruff]
+line-length = 100
+target-version = "py312"
+
+[tool.ruff.lint]
+select = ["E", "W", "F", "I", "UP", "B", "SIM", "RET"]
+# explicit "if ...: return False / return True" is allowed where it reads clearer
+ignore = ["SIM103"]
+
+[tool.mypy]
+strict = true
+python_version = "3.12"
+files = ["src"]
+plugins = ["pydantic.mypy"]
+
+# cvxpy ships incomplete type hints, so mypy treats it as untyped
+[[tool.mypy.overrides]]
+module = ["cvxpy", "cvxpy.*"]
+follow_imports = "skip"
+
+[tool.pytest.ini_options]
+addopts = "-q"
+testpaths = ["tests"]

@@ -1,0 +1,114 @@
+[
+ {
+  "id": "event0001",
+  "sport_key": "soccer_epl",
+  "sport_title": "EPL",
+  "commence_time": "2026-08-28T19:00:00Z",
+  "home_team": "Home Town",
+  "away_team": "Away United",
+  "bookmakers": [
+   {
+    "key": "book_a",
+    "title": "Book A",
+    "last_update": "2026-08-28T14:52:29Z",
+    "markets": [
+     {
+      "key": "totals",
+      "last_update": "2026-08-28T14:52:29Z",
+      "outcomes": [
+       {
+        "name": "Over",
+        "price": 1.7,
+        "point": 2.5
+       },
+       {
+        "name": "Under",
+        "price": 2.1,
+        "point": 2.5
+       }
+      ]
+     }
+    ]
+   },
+   {
+    "key": "book_b",
+    "title": "Book B",
+    "last_update": "2026-08-28T14:52:51Z",
+    "markets": [
+     {
+      "key": "totals",
+      "last_update": "2026-08-28T14:52:51Z",
+      "outcomes": [
+       {
+        "name": "Over",
+        "price": 1.72,
+        "point": 2.5
+       },
+       {
+        "name": "Under",
+        "price": 2.05,
+        "point": 2.5
+       }
+      ]
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "id": "event0002",
+  "sport_key": "soccer_epl",
+  "sport_title": "EPL",
+  "commence_time": "2026-08-29T11:30:00Z",
+  "home_team": "North City",
+  "away_team": "South Rovers",
+  "bookmakers": [
+   {
+    "key": "book_a",
+    "title": "Book A",
+    "last_update": "2026-08-28T14:52:29Z",
+    "markets": [
+     {
+      "key": "totals",
+      "last_update": "2026-08-28T14:52:29Z",
+      "outcomes": [
+       {
+        "name": "Over",
+        "price": 1.55,
+        "point": 2.5
+       },
+       {
+        "name": "Under",
+        "price": 2.4,
+        "point": 2.5
+       }
+      ]
+     }
+    ]
+   },
+   {
+    "key": "book_b",
+    "title": "Book B",
+    "last_update": "2026-08-28T14:52:51Z",
+    "markets": [
+     {
+      "key": "totals",
+      "last_update": "2026-08-28T14:52:51Z",
+      "outcomes": [
+       {
+        "name": "Over",
+        "price": 1.58,
+        "point": 2.5
+       },
+       {
+        "name": "Under",
+        "price": 2.35,
+        "point": 2.5
+       }
+      ]
+     }
+    ]
+   }
+  ]
+ }
+]

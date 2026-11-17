@@ -1,0 +1,108 @@
+# engine settings
+
+sim:
+  n_sims: 10000
+  seed: 7
+  rho: 0.05 # correlation within a group of one sport and date
+
+risk: # all fractions of bankroll
+  max_total_stake: 0.5
+  drawdown_floor: 0.7
+  drawdown_prob: 0.05
+  tail: 0.95
+  cvar_limit: 0.08
+  variance_limit: 0.02
+
+decision:
+  ev_min: 0.01 # smallest edge after commission that we bet
+  max_lead: 43200 # seconds; no orders on games starting later than this
+  fair_prob: consensus # consensus or pinnacle
+
+archiver:
+  root: data_local/odds
+  sports: [soccer_epl, soccer_efl_champ, basketball_nba, icehockey_nhl]
+  regions: [uk, eu]
+  markets: [h2h]
+
+consensus:
+  devig_method: power
+  max_age: 600 # seconds; oldest usable quote
+  max_skew: 60 # seconds of clock disagreement allowed
+  min_reference_families: 2
+  min_prob: 0.10 # skips longshots
+  max_edge: 0.10 # bigger edges are flagged, not bet
+  max_disagreement: 0.08 # a book this far from the consensus is flagged too
+  latency_haircut: 0.0 # flat haircut on every price
+  max_candidates: 6
+
+paper: # fill verification and the closing line
+  bankroll: 1.0
+  verify_after: 300 # seconds before an order is checked
+  verify_within: 1800 # seconds after that, else the order is missed
+  close_from: 900 # seconds before the start that the closing window opens
+  close_until: 120 # seconds before the start that it shuts
+  min_close_gap: 600 # seconds; a close nearer the decision than this is ignored
+
+live: # settings for scripts/tick.py
+  sports: [basketball_nba, icehockey_nhl, soccer_epl, soccer_efl_champ]
+  # sports settled with overtime, so books with a draw are dropped
+  no_draws: [basketball_nba, icehockey_nhl]
+  horizon: 10800 # seconds; full polls only for games starting within this
+  decide_every: 3600 # seconds between full polls of a sport
+  close_lead: 600 # seconds; the close poll runs in the last stretch of the closing window
+  settle_after: 14400 # seconds after the start before asking for results
+  settle_every: 21600 # seconds between results calls for a sport
+  credit_reserve: 30 # below this, no new full polls
+  ledger: records/paper_ledger.jsonl
+  flags: data_local/flags.jsonl
+  results: data_local/results
+
+betfair: # Betfair Exchange, skipped without credentials
+  root: data_local/betfair # best offers each tick
+  session: data_local/betfair_session.json # saved session token
+  markets: # by sport, the market that settles like its h2h
+    basketball_nba: { event_type: "7522", market_type: MATCH_ODDS } # 2-way
+    icehockey_nhl: { event_type: "7524", market_type: MONEY_LINE } # not MATCH_ODDS
+    soccer_epl: { event_type: "1", market_type: MATCH_ODDS, countries: [GB] }
+    soccer_efl_champ: { event_type: "1", market_type: MATCH_ODDS, countries: [GB] }
+  start_tolerance: 900 # seconds; allowed gap between the two start times
+  aliases: {} # Betfair team name to Odds API name
+  keep_alive: 3600 # seconds between session keep alives
+  horizon: 21600 # seconds; games starting within this are captured
+  max_spread: 0.02 # runners with a wider back and lay gap are ignored
+  move: 0.02 # a probability move this big triggers a poll of the game
+  compare_within: 900 # seconds; oldest capture to compare with
+  compare_back: 270 # seconds; newest capture to compare with
+  max_triggers: 3 # trigger polls per sport in 24 hours
+  hot_reserve: 1 # the last of these only go to games starting within hot_zone
+  hot_zone: 7200 # seconds
+
+# every book we use, and how; books not listed are ignored
+# books in one family share one vote
+# venues are UK books only
+venues:
+  pinnacle: { role: reference, weight: 2 }
+  betfair_ex_uk: { role: reference, family: betfair_ex, weight: 1.25, commission: 0.05 }
+  betfair_ex_eu: { role: reference, family: betfair_ex, weight: 1.25, commission: 0.05 }
+  williamhill: { role: reference, family: evoke, weight: 1.25 }
+  sport888: { role: reference, family: evoke, weight: 1.25 }
+  unibet_uk: { role: reference, family: kambi, weight: 1.25 }
+  unibet_nl: { role: reference, family: kambi, weight: 1.25 }
+  unibet_se: { role: reference, family: kambi, weight: 1.25 }
+  betano_uk: { role: venue }
+  betfair_sb_uk: { role: venue }
+  betfred_uk: { role: venue }
+  betvictor: { role: venue }
+  betway: { role: venue }
+  boylesports: { role: venue }
+  casumo: { role: venue }
+  coral: { role: venue }
+  grosvenor: { role: venue }
+  ladbrokes_uk: { role: venue }
+  leovegas: { role: venue }
+  livescorebet: { role: venue }
+  paddypower: { role: venue }
+  skybet: { role: venue }
+  virginbet: { role: venue }
+  matchbook: { role: venue, commission: 0.02 } # commission rate
+  smarkets: { role: venue, commission: 0.02 } # commission rate
